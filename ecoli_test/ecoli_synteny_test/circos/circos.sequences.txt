@@ -1,0 +1,5 @@
+chr - seq1 NZ_CP007653.1 0 3053204 green_a4
+chr - seq2 AL111168.1 0 1641481 green_a4
+chr - seq4 NC_004337.2 0 4607202 green_a4
+chr - seq5 AE014613.1 0 4791961 green_a4
+chr - seq6 NZ_CP015831.1 0 5831209 green_a4
