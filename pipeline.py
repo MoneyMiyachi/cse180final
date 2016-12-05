@@ -35,6 +35,10 @@ parser.add_argument('--samtools_path', required=False, default='samtools',
         help='path to samtools executable')
 parser.add_argument('--reference', required=True,
         help='a fasta reference file use for alignment, and variant calling')
+parser.add_argument('--synteny', required=False, default='syntenydb.txt',
+        help='the path to the synteny database file you would like to use to develop key metrics for snvs')
+
+
 
 
 args = parser.parse_args()
@@ -89,18 +93,19 @@ output_list = snvdeserts.print_output(snv_table)
 
 """** need to have the sytnedb.txt in your repository **"""
 #goes through final_result.py to create our final output file with key metrics of snvs
-result = final_result.final_output('./output/snv_output.txt','syntenydb.txt')
-#sorted_result = snvdeserts.sort_final()
+result = final_result.final_output('./output/snv_output.txt',args.synteny)
 
 
+"""
+sorted_result = snvdeserts.sort_final()
 sorted_file = open('./output/sorted_result.txt','w')
-for x in sorted_result:
+for x in sorted_file:
     #line = ','.join(repr(e) for e in x)
     s = str(x)
     line = s[1:-1]
     sorted_file.write(line)
     sorted_file.write('\t')
-sorted_file.close()
+sorted_file.close()"""
 
 
 

@@ -37,9 +37,9 @@ def final_output(SNP_deserts, syntenydb):
 
 			#if any part is in synteny
             if(start_SNP >= start_synteny and start_SNP <= end_synteny) or (end_SNP >= start_synteny and end_SNP <= end_synteny):
-                
-				#if whole thing is in synteny
-				if(start_SNP >= start_synteny and end_SNP <= end_synteny):
+
+		#if whole thing is in synteny
+		if(start_SNP >= start_synteny and end_SNP <= end_synteny):
                     output.append('1.00')
                     output.append(num_synteny)
                     f3.write("%s\t%s\t%s\t%s\n" % (line1.rstrip('\n'), output[0], output[1], str(float(output[0])*int(output[1]))))
