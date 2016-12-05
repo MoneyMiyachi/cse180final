@@ -5,13 +5,10 @@ import operator
 import argparse
 
 """
-parser = argparse.ArgumentParser(description='Processes a reference file and a vcf file and creates a table with metrics scoring the quality of different snp deserts')
-
-parser.add_argument('-r', '--reference', required=True,
-        help='a fasta reference file use for alignment, and variant calling')
-
-parser.add_argument('-v', '--vcf', required=True,
-        help='a vcf file use for alignment, and variant calling')
+Function: ref_length
+Input: reference file
+Output: length of the file
+Description: Returns the length of the reference file to pass into the snp_desert function
 """
 def ref_length(reference):
     chars = 0
@@ -22,6 +19,13 @@ def ref_length(reference):
             chars += len(s_line)
         return chars
 
+"""
+Function: extract_vcf
+Input: a vcf file
+Output: a list of position where the variance occurs
+Description: Returns a list of the locations where variance occurs in the vcf file.
+"""
+
 def extract_vcf(vcf_file):
     with open(vcf_file,'r') as f:
         pos_list = set()
@@ -31,6 +35,14 @@ def extract_vcf(vcf_file):
                 parts = line.split()
                 pos_list.add(parts[1])
     return pos_list
+
+"""
+Function: snp_desert
+Input: a list of positions and length of reference file
+Output: a list of start and end points along with its total number of snvs in that given region
+Description: Returns a list of useful snv metrics that allow for further statistical analysis
+of our variance calling output.
+"""
 
 def snp_desert(pos_list, length):
     desert_dict = {}
@@ -53,7 +65,13 @@ def snp_desert(pos_list, length):
     sorted_desert = sorted(desert_dict.items(), key=lambda k: k[1][0], reverse=True)
     return sorted_desert
 
-
+"""
+Function: print_output
+Input: a list of start and end positions along with the number of snvs in that region
+Output: None
+Description: This function writes the start position, end position, length, snvs, and conservation score
+to a file which can be read and anlyzed by the user of this program.
+"""
 def print_output(top_snps):
     target = open('./output/snv_output.txt','w')
     target.write("start end length  snps conservation score")
@@ -74,7 +92,7 @@ def print_output(top_snps):
         length = snp_output[i][2]
         snps = snp_output[i][3]
         conservation_score = snp_output[i][4]
-        #print "THIS SHOULD BE FUCKING WRITING"
+        #writing to the file
         target.write(str(start))
         target.write('\t')
         target.write(str(end))

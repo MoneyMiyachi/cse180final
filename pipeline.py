@@ -11,6 +11,13 @@ import snvdeserts
 import final_result
 
 
+
+"""
+ArgParse Section: This makes the user enter two arguments along with running pipeline.py.
+The user must pass in a fastq file as input and a reference fasta file as reference. The user
+also has the option of specifying the path of the different tools they need if it is not in
+there primary path.
+"""
 parser = argparse.ArgumentParser(description='Proccesses a .fasta File and returns the Unique SNP Deserts if they exist compared to Reference Genome.')
 parser.add_argument('--input', metavar='I', type=str,
         help='a fasta file for the program to look for unique SNP Desert, Include the path.',
@@ -49,7 +56,7 @@ align.wait()
 
 
 ##convert to a bam
-convert = subprocess.call([args.samtools_path, 'view', '-b','-o', './output/alignt.bam','./output/align.sam'])
+convert = subprocess.call([args.samtools_path, 'view', '-b','-o', './output/align.bam','./output/align.sam'])
 
 
 #sort bam file
@@ -63,7 +70,7 @@ index_bam = subprocess.call([args.samtools_path, 'index', './output/align.sorted
 #index the reference with samtools
 re_index = subprocess.call([args.samtools_path, 'faidx', args.reference])
 
-
+#creates variant.vcf file with freebayes tool
 temp_vcf = open('./output/variants.vcf', 'w')
 freebayes = subprocess.Popen([args.freebayes_path, '-f', args.reference, './output/align.sorted.bam'],
         stdout=temp_vcf)
@@ -72,6 +79,8 @@ temp_vcf.close()
 
 temp_vcf = './output/variants.vcf'
 
+
+#goes through the snvdeserts.py file to create a snv table
 length = snvdeserts.ref_length(args.reference)
 new_list = snvdeserts.extract_vcf(temp_vcf)
 snv_table = snvdeserts.snp_desert(new_list,length)
@@ -79,9 +88,10 @@ output_list = snvdeserts.print_output(snv_table)
 
 
 """** need to have the sytnedb.txt in your repository **"""
-
+#goes through final_result.py to create our final output file with key metrics of snvs
 result = final_result.final_output('./output/snv_output.txt','syntenydb.txt')
-sorted_result = snvdeserts.sort_final()
+#sorted_result = snvdeserts.sort_final()
+
 
 sorted_file = open('./output/sorted_result.txt','w')
 for x in sorted_result:
