@@ -2,25 +2,17 @@
 CSE 180 Final Project:
 
 
-1. Install BWA - 
-$ git clone https://github.com/lh3/bwa.git
-$ cd bwa
-$ make
+1. Install BWA
+2. Install FreeBayes
+3. Install SAM tools
 
-2. Install FreeBayes - 
-$ git clone --recursive git://github.com/ekg/freebayes.git
-$ cd freebayes
-$ make
+To run this program download from git and run:
 
-3. Install Primer 3 - 
-- Go to https://sourceforge.net/projects/primer3/?source=typ_redirect and Download Primer 3 
-$ tar -cxvf primer3-2.3.7.tar.gz (or the current version of primer3 zipped file you downloaded)
-$ mv primer3-2.3.7 path/<Project name>/
+python pipeline.py --input [input.fastq file] --reference [reference.fasta file]
 
+You can specify the path to any of the tools above using the arguments
+--bwa_path
+--freebayes_path
+--samtools_path
 
-4. Install BLAST - 
-:(
-
-Sample FastA Files: 
-
-Sample FastQ Reference Files: 
+This program rates and scores the different snv desert segments of the input file based on a the number of snvs that occur, the length of the region the snvs occur in, and a synteny database created by the Sibelian tool. All output files are sent to the output folder and the final output table and key metrics are in output.txt. 
