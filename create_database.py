@@ -1,4 +1,4 @@
-"""File that creates a usable synteny database for our tool to use. 
+"""File that creates a usable synteny database for our tool to use.
    Takes in input from Sibelia run on multiple references and outputs a
    text file that will be used as input for final_output.py
    Output is formatted as block number\tstart\tend\tnumber of species that have
@@ -9,17 +9,17 @@
    only those blocks that are shared between reference and a different species"""
 def get_blocks(synteny_file, reference):
     blocks = {} #output variable
-    
-	#will be needed to identify referene from synteny_file
-	reference_id = ''
+
+    #will be needed to identify referene from synteny_file
+    reference_id = ''
     reference_number = ''
 
-	#identify reference accession number within reference
+    #identify reference accession number within reference
     with open(reference, 'r') as f2:
         line = f2.readline()
         parts = line.split()
         reference_id = parts[0][1:]
-		
+
 	#identify reference within synteny_file
     with open(synteny_file, 'r') as f:
         for line in f:
@@ -53,9 +53,9 @@ def get_blocks(synteny_file, reference):
    are in reference and other species and returns usable synteny databese for
    tool"""
 def block_parser(synteny_file, reference, blocks):
-    
-	#Get sample_id for reference species
-	out = open('syntenydb.txt', 'w')
+
+    #Get sample_id for reference species
+    out = open('syntenydb.txt', 'w')
     out.write('block number\tstart\tend\tnum blocks\n')
     reference_id = ''
     reference_number = ''
@@ -63,7 +63,7 @@ def block_parser(synteny_file, reference, blocks):
         line = f2.readline()
         parts = line.split()
         reference_id = parts[0][1:]
-    
+
 	#look for lines that include blocks in block parameter
 	with open(synteny_file, 'r') as f:
         for line in f:
@@ -85,7 +85,7 @@ def block_parser(synteny_file, reference, blocks):
                 if block_number in blocks:
                     wanted_line = f.readline()
                     parts = wanted_line.split()
-						
+
 					#find the synteny regions and output their info
                     while(wanted_line.split()[0][0] != '-'):
                         if(wanted_line[0] == reference_number):
